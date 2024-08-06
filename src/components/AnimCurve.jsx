@@ -1,6 +1,16 @@
-import { DoubleSide } from "three";
-import { state } from "../state";
+import { CatmullRomCurve3, DoubleSide } from "three";
+import { CURVE_TYPE, NUM_POINTS_TOTAL, state } from "../state";
 import { useSnapshot } from "valtio";
+
+export const createCurve = () => {
+  const curve = new CatmullRomCurve3(
+    state.nodeProps.map((it) => it.position),
+    false,
+    CURVE_TYPE
+  );
+  curve.arcLengthDivisions = NUM_POINTS_TOTAL;
+  return curve;
+};
 
 export function AnimCurve() {
   useSnapshot(state);

@@ -1,8 +1,8 @@
 import { TransformControls, OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useSnapshot } from "valtio";
-import { state, modes, CURVE_TYPE, NUM_POINTS_TOTAL } from "../state";
-import { CatmullRomCurve3 } from "three";
+import { state, modes } from "../state";
+import { createCurve } from "./AnimCurve";
 
 export function Controls() {
   // Get notified on changes to state
@@ -15,12 +15,7 @@ export function Controls() {
       const nodeProps = state.nodeProps.find((it) => it.name === object.name);
       if (nodeProps) {
         nodeProps.position.copy(object.position);
-        state.curve = new CatmullRomCurve3(
-          state.nodeProps.map((it) => it.position),
-          false,
-          CURVE_TYPE
-        );
-        state.curve.arcLengthDivisions = NUM_POINTS_TOTAL;
+        state.curve = createCurve();
       }
     }
   };
