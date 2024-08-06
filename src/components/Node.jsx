@@ -2,6 +2,7 @@ import { useCursor } from "@react-three/drei";
 import { useState } from "react";
 import { useSnapshot } from "valtio";
 import { state, modes } from "../state";
+import { Vector3 } from "three";
 
 export class NodeProps {
   id;
