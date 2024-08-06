@@ -3,18 +3,20 @@ import { useState } from "react";
 import { useSnapshot } from "valtio";
 import { state, modes } from "../state";
 import { Quaternion, Vector3 } from "three";
+import { useControls } from "leva";
 
 export class NodeProps {
   id;
   name;
   position;
 
-  constructor(id, position, scale, quaternion) {
+  constructor(id, position, scale, quaternion, color) {
     this.id = id === undefined ? 0 : id;
     this.name = "Node" + this.id;
     this.position = position === undefined ? new Vector3() : position;
     this.scale = scale === undefined ? new Vector3(1, 1, 1) : scale;
     this.quaternion = quaternion === undefined ? new Quaternion() : quaternion;
+    this.color = color === undefined ? "black" : color;
   }
 }
 
@@ -24,6 +26,14 @@ export function Node({ name, ...props }) {
   // Feed hover state into useCursor, which sets document.body.style.cursor to pointer|auto
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
+  const params = {};
+  params[name] = {
+    value: state.nodeProps.find((it) => it.name === name).color,
+    onChange: (value) => {
+      state.nodeProps.find((it) => it.name === name).color = value;
+    },
+  };
+  useControls("Node Colors", params);
   return (
     <mesh
       // Click sets the mesh as the new target

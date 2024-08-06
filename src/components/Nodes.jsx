@@ -18,9 +18,9 @@ export function Nodes() {
     state.nodeProps.pop();
     state.curve = createCurve();
   };
-  useControls({
-    add: button(() => addNode()),
-    remove: button(() => removeNode()),
+  useControls("Buttons", {
+    addNode: button(() => addNode()),
+    removeNode: button(() => removeNode()),
   });
   return (
     <group>

@@ -1,10 +1,10 @@
 import { proxy } from "valtio";
-import { CatmullRomCurve3, Vector3 } from "three";
+import { CatmullRomCurve3, Quaternion, Vector3 } from "three";
 import { NodeProps } from "./components/Node";
 
 const initialNodeProps = [
-    new NodeProps(0, new Vector3(-2, 0, 0)),
-    new NodeProps(1, new Vector3(2, 0, 0))
+    new NodeProps(0, new Vector3(-2, 0, 0), new Vector3(1, 1, 1), new Quaternion(), "red"),
+    new NodeProps(1, new Vector3(2, 0, 0), new Vector3(1, 2, 0.5), new Quaternion(), "lime"),
 ];
 
 export const NUM_POINTS_TOTAL = 200;

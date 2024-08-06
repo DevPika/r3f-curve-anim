@@ -95,7 +95,7 @@ export function AnimMesh() {
     }
   });
 
-  useControls({
+  useControls("Buttons", {
     startAnimation: button(() => startAnimation()),
   });
 
