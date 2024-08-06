@@ -16,6 +16,8 @@ export function Controls() {
       if (nodeProps) {
         nodeProps.position.copy(object.position);
         state.curve = createCurve();
+        nodeProps.scale.copy(object.scale);
+        nodeProps.quaternion.copy(object.quaternion);
       }
     }
   };

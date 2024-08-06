@@ -2,25 +2,19 @@ import { useCursor } from "@react-three/drei";
 import { useState } from "react";
 import { useSnapshot } from "valtio";
 import { state, modes } from "../state";
-import { Vector3 } from "three";
+import { Quaternion, Vector3 } from "three";
 
 export class NodeProps {
   id;
   name;
   position;
 
-  constructor(id, position) {
-    if (id === undefined) {
-      this.id = 0;
-    } else {
-      this.id = id;
-    }
+  constructor(id, position, scale, quaternion) {
+    this.id = id === undefined ? 0 : id;
     this.name = "Node" + this.id;
-    if (position === undefined) {
-      this.position = new Vector3();
-    } else {
-      this.position = position;
-    }
+    this.position = position === undefined ? new Vector3() : position;
+    this.scale = scale === undefined ? new Vector3(1, 1, 1) : scale;
+    this.quaternion = quaternion === undefined ? new Quaternion() : quaternion;
   }
 }
 
