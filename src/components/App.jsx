@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Controls } from "./Controls";
-import { Node } from "./Node";
+import { Nodes } from "./Nodes";
 
 export default function App() {
   return (
@@ -12,11 +12,7 @@ export default function App() {
         position={[-7, 25, 13]}
         intensity={0.85}
       />
-      <group position={[0, 0, 0]}>
-        <Node name="Node0" position={[-2, 0, 0]} />
-        <Node name="Node1" position={[0, 0, 0]} />
-        <Node name="Node2" position={[2, 0, 0]} />
-      </group>
+      <Nodes />
       <Controls />
     </Canvas>
   );
