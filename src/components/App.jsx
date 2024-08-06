@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Controls } from "./Controls";
 import { Nodes } from "./Nodes";
+import { AnimCurve } from "./AnimCurve";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         intensity={0.85}
       />
       <Nodes />
+      <AnimCurve />
       <Controls />
     </Canvas>
   );
