@@ -25,7 +25,14 @@ export function Nodes() {
   return (
     <group>
       {snap.nodeProps.map((it, index) => (
-        <Node key={it.id} name={it.name} position={it.position} />
+        <Node
+          key={it.id}
+          name={it.name}
+          position={it.position}
+          scale={it.scale}
+          quaternion={it.quaternion}
+          color={it.color}
+        />
       ))}
     </group>
   );

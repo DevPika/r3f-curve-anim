@@ -49,7 +49,7 @@ export function Node({ name, ...props }) {
       onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
       onPointerOut={(e) => setHovered(false)}
       name={name}
-      material-color={snap.current === name ? "#ff6080" : "white"}
+      material-color={snap.current === name ? "#ff6080" : props.color}
       {...props}
       dispose={null}
     >
