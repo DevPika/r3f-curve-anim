@@ -1,12 +1,29 @@
 import { TransformControls, OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useSnapshot } from "valtio";
-import { state, modes } from "../state";
+import { state, modes, CURVE_TYPE, NUM_POINTS_TOTAL } from "../state";
+import { CatmullRomCurve3 } from "three";
 
 export function Controls() {
   // Get notified on changes to state
   const snap = useSnapshot(state);
   const scene = useThree((state) => state.scene);
+  const onTransformChange = (e) => {
+    const controls = e.target;
+    const object = controls.object;
+    if (object) {
+      const nodeProps = state.nodeProps.find((it) => it.name === object.name);
+      if (nodeProps) {
+        nodeProps.position.copy(object.position);
+        state.curve = new CatmullRomCurve3(
+          state.nodeProps.map((it) => it.position),
+          false,
+          CURVE_TYPE
+        );
+        state.curve.arcLengthDivisions = NUM_POINTS_TOTAL;
+      }
+    }
+  };
   return (
     <>
       {/* As of drei@7.13 transform-controls can refer to the target by children, or the object prop */}
@@ -14,6 +31,7 @@ export function Controls() {
         <TransformControls
           object={scene.getObjectByName(snap.current)}
           mode={modes[snap.mode]}
+          onChange={onTransformChange}
         />
       )}
       {/* makeDefault makes the controls known to r3f, now transform-controls can auto-disable them when active */}

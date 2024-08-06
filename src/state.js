@@ -7,8 +7,8 @@ const initialNodeProps = [
     new NodeProps(1, new Vector3(2, 0, 0))
 ];
 
-const NUM_POINTS_TOTAL = 200;
-const CURVE_TYPE = 'catmullrom';
+export const NUM_POINTS_TOTAL = 200;
+export const CURVE_TYPE = 'catmullrom';
 const initialCurve = new CatmullRomCurve3(
   initialNodeProps.map((it, i) => it.position),
   false,
