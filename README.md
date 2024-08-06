@@ -4,6 +4,8 @@
 
 ## Features
 * Nodes with configurable position, scale, rotation and color
+* Left click on a node to select it and show Gizmos around it
+* Right click on a node to cycle through Gizmo modes (translation, rotation and scale)
 * Animated 3D object follows a smooth curve
 * Mesh transform and color are interpolated throughout the curve
 * Orbit Controls to looks around the scene
