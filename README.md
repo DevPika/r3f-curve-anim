@@ -1,5 +1,7 @@
 # R3F Curve Animation
 
+<img src="./Screenshot.png" width="800" />
+
 ## Features
 * Nodes with configurable position, scale, rotation and color
 * Animated 3D object follows a smooth curve
