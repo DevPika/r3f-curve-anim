@@ -2,7 +2,7 @@ import { useCursor } from "@react-three/drei";
 import { useState } from "react";
 import { useSnapshot } from "valtio";
 import { state, modes } from "../state";
-import { Quaternion, Vector3 } from "three";
+import { Euler, Quaternion, Vector3 } from "three";
 import { useControls } from "leva";
 
 export class NodeProps {
@@ -27,13 +27,42 @@ export function Node({ name, ...props }) {
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
   const params = {};
-  params[name] = {
+  params[name + "Position"] = {
+    value: state.nodeProps.find((it) => it.name === name).position,
+    onChange: (value) => {
+      state.nodeProps.find((it) => it.name === name).position = value;
+    },
+  };
+  params[name + "Scale"] = {
+    value: state.nodeProps.find((it) => it.name === name).scale,
+    onChange: (value) => {
+      state.nodeProps.find((it) => it.name === name).scale = value;
+    },
+  };
+  params[name + "Euler"] = {
+    value: new Euler()
+      .setFromQuaternion(
+        state.nodeProps.find((it) => it.name === name).quaternion
+      )
+      .toArray()
+      .slice(0, 3),
+    onChange: (value) => {
+      const quat = state.nodeProps.find((it) => it.name === name).quaternion;
+      quat.setFromEuler(new Euler(...value));
+      // console.log(new Euler(...value));
+      // console.log(quat);
+    },
+    // onUpdate: (value) => {
+    //   console.log(value);
+    // },
+  };
+  params[name + "Color"] = {
     value: state.nodeProps.find((it) => it.name === name).color,
     onChange: (value) => {
       state.nodeProps.find((it) => it.name === name).color = value;
     },
   };
-  useControls("Node Colors", params);
+  useControls(name + "Params", params);
   return (
     <mesh
       // Click sets the mesh as the new target
