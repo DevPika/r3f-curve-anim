@@ -17,6 +17,8 @@ export class NodeProps {
     this.scale = scale === undefined ? new Vector3(1, 1, 1) : scale;
     this.quaternion = quaternion === undefined ? new Quaternion() : quaternion;
     this.color = color === undefined ? "black" : color;
+    this.isFirstLoadComplete = false;
+    this.isSecondLoadComplete = false;
   }
 }
 
@@ -28,12 +30,30 @@ export function Node({ name, ...props }) {
   useCursor(hovered);
   const params = {};
   params[name] = {
-    value: state.nodeProps.find((it) => it.name === name).color,
-    onChange: (value) => {
-      state.nodeProps.find((it) => it.name === name).color = value;
+    value: snap.nodeProps.find((it) => it.name === name).color,
+    onChange: function (v) {
+      const nodeProp = state.nodeProps.find((it) => it.name === name);
+      // TODO Leva Library Bug:
+      // Color picker UI caches values, storing them even after node removal, so new nodes start with previous colors
+      // console.log(v);
+      if (!nodeProp.isFirstLoadComplete) {
+        // this.value = nodeProp.color;
+        nodeProp.isFirstLoadComplete = true;
+        console.log("firstLoadComplete");
+        console.log(nodeProp);
+      } else if (!nodeProp.isSecondLoadComplete) {
+        nodeProp.isSecondLoadComplete = true;
+        console.log("secondLoadComplete");
+        console.log(nodeProp);
+      } else {
+        nodeProp.color = v;
+        console.log("color set");
+      }
     },
   };
-  useControls("Node Colors", params);
+  useControls("Node Colors", params, [
+    state.nodeProps.find((it) => it.name === name).color,
+  ]);
   return (
     <mesh
       // Click sets the mesh as the new target
@@ -49,12 +69,17 @@ export function Node({ name, ...props }) {
       onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
       onPointerOut={(e) => setHovered(false)}
       name={name}
-      material-color={snap.current === name ? "#ff6080" : props.color}
       {...props}
       dispose={null}
     >
       <boxGeometry args={[0.2, 0.2, 0.2]} />
-      <meshStandardMaterial />
+      <meshStandardMaterial
+        color={
+          snap.current === name
+            ? "#ff6080"
+            : state.nodeProps.find((it) => it.name === name).color
+        }
+      />
     </mesh>
   );
 }

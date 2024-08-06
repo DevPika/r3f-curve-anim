@@ -31,7 +31,6 @@ export function Nodes() {
           position={it.position}
           scale={it.scale}
           quaternion={it.quaternion}
-          color={it.color}
         />
       ))}
     </group>
