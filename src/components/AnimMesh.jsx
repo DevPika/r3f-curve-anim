@@ -17,6 +17,7 @@ export function AnimMesh() {
     const initialPosition = meshRef.current.position.clone();
     const initialScale = meshRef.current.scale.clone();
     const initialQuaternion = meshRef.current.quaternion.clone();
+    const initialColor = meshRef.current.material.color.clone();
     const tl = gsap.timeline();
     const tl2 = gsap.timeline();
     tl.to(
@@ -47,12 +48,19 @@ export function AnimMesh() {
             if (tweenRotation) {
               tweenRotation.progress((t1 * numSegments) % 1);
             }
+
+            // Color
+            const tweenColor = tl2.getById("color" + currentLabel);
+            if (tweenColor) {
+              tweenColor.progress((t1 * numSegments) % 1);
+            }
           }
         },
         onComplete: function () {
           meshRef.current.position.copy(initialPosition);
           meshRef.current.scale.copy(initialScale);
           meshRef.current.quaternion.copy(initialQuaternion);
+          meshRef.current.material.color.copy(initialColor);
         },
       }
     );
@@ -87,6 +95,23 @@ export function AnimMesh() {
                 meshRef.current.quaternion
                   .copy(state.nodeProps[i].quaternion)
                   .slerp(state.nodeProps[i + 1].quaternion, this.progress());
+              }
+            },
+          },
+          label
+        )
+        .to(
+          {},
+          {
+            paused: true,
+            id: "color" + label,
+            onUpdate: function () {
+              if (meshRef.current) {
+                meshRef.current.material.color.lerpColors(
+                  new THREE.Color(state.nodeProps[i].color),
+                  new THREE.Color(state.nodeProps[i + 1].color),
+                  this.progress()
+                );
               }
             },
           },
