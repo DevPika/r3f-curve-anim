@@ -13,11 +13,13 @@ export function AnimMesh() {
   const { contextSafe } = useGSAP();
 
   const startAnimation = contextSafe(() => {
+    if (meshRef.current) {
+      meshRef.current.position.copy(state.nodeProps[0].position);
+      meshRef.current.scale.copy(state.nodeProps[0].scale);
+      meshRef.current.quaternion.copy(state.nodeProps[0].quaternion);
+      meshRef.current.material.color.copy(state.nodeProps[0].color);
+    }
     const animDuration = 5;
-    const initialPosition = meshRef.current.position.clone();
-    const initialScale = meshRef.current.scale.clone();
-    const initialQuaternion = meshRef.current.quaternion.clone();
-    const initialColor = meshRef.current.material.color.clone();
     const tl = gsap.timeline();
     const tl2 = gsap.timeline();
     tl.to(
@@ -25,6 +27,11 @@ export function AnimMesh() {
       {
         duration: animDuration,
         ease: "none",
+        onStart: function () {
+          if (meshRef.current) {
+            meshRef.current.visible = true;
+          }
+        },
         onUpdate: function () {
           if (meshRef.current) {
             const progress = this.progress();
@@ -57,10 +64,9 @@ export function AnimMesh() {
           }
         },
         onComplete: function () {
-          meshRef.current.position.copy(initialPosition);
-          meshRef.current.scale.copy(initialScale);
-          meshRef.current.quaternion.copy(initialQuaternion);
-          meshRef.current.material.color.copy(initialColor);
+          if (meshRef.current) {
+            meshRef.current.visible = false;
+          }
         },
       }
     );
@@ -125,10 +131,8 @@ export function AnimMesh() {
   });
 
   return (
-    <Box
-      ref={meshRef}
-      position={[-2, 0, 0]}
-      material={new THREE.MeshStandardMaterial({ color: "black" })}
-    />
+    <Box ref={meshRef} visible={false}>
+      <meshStandardMaterial />
+    </Box>
   );
 }
