@@ -3,6 +3,26 @@ import { useState } from "react";
 import { useSnapshot } from "valtio";
 import { state, modes } from "../state";
 
+export class NodeProps {
+  id;
+  name;
+  position;
+
+  constructor(id, position) {
+    if (id === undefined) {
+      this.id = 0;
+    } else {
+      this.id = id;
+    }
+    this.name = "Node" + this.id;
+    if (position === undefined) {
+      this.position = new Vector3();
+    } else {
+      this.position = position;
+    }
+  }
+}
+
 export function Node({ name, ...props }) {
   // Ties this component to the state model
   const snap = useSnapshot(state);

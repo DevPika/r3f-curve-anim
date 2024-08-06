@@ -1,21 +1,10 @@
 import { proxy } from "valtio";
 import { CatmullRomCurve3, Vector3 } from "three";
-
-export class NodeProps {
-    position;
-
-    constructor(position) {
-        if (position === undefined) {
-            this.position = new Vector3();
-        } else {
-            this.position = position;
-        }
-    }
-}
+import { NodeProps } from "./components/Node";
 
 const initialNodeProps = [
-    new NodeProps(new Vector3(-2, 0, 0)),
-    new NodeProps(new Vector3(2, 0, 0))
+    new NodeProps(0, new Vector3(-2, 0, 0)),
+    new NodeProps(1, new Vector3(2, 0, 0))
 ];
 
 const NUM_POINTS_TOTAL = 200;
